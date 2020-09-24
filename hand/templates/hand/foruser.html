@@ -1,0 +1,175 @@
+
+{% extends "hand/base3.html" %}
+{% load static %}
+{% block content %}
+
+
+<style>
+body {font-family: "Lato", sans-serif}
+.mySlides {display: none}
+
+</style>
+<style>
+.alert {
+  padding: 20px;
+  background: linear-gradient(to right, #9e0d3d, black);
+  color: yellow;
+  font-weight: bold;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+hr{
+  margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+
+
+
+</style>
+<body>
+
+<!-- Navbar -->
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:50px">
+ 
+
+
+                                     {% if messages %}
+<div class="alert" style=" position:relative;top:100%; width:100%;  margin: 30px auto;
+  	font-size: 25px; ">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+
+                                     
+                                        <ul class="messages">
+                                           {% for message in messages %}
+                                              <h2 ><li style="color: yellow; font-weight: bold; " {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li></h2>
+                                           {% endfor %}
+                                        </ul>
+                                        </div>
+                                      {% endif %}
+
+
+        
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px;max-height:75px;" id="contact">
+    <h2 class="w3-wide w3-center">Hospitals</h2>
+    <hr >
+  </div>
+
+
+    {% for hospital in hospitals %}
+    {% if hospital.allowed == 1 %}
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px; max-height:350px;" id="contact">  
+    
+    <div class="w3-row w3-padding-32">
+      <div class="w3-col m6 w3-large w3-margin-bottom">
+        <i style="width:30px"></i> {{ hospital.name }}<br>
+        <hr>
+        
+           <div>
+               <a class="btn btn-secondary w3-button w3-teal w3-section " href="{% url 'hospital-update' hospital.id %}">Update</a>
+               
+
+               <a class="btn btn-danger w3-button w3-red w3-section " onclick="document.getElementById(hid='{{hospital.id}}').style.display='block'" >delete</a>
+<!--popup starts-->
+<div id="{{hospital.id}}" class="w3-modal" style="top:12%;">
+    <div class="w3-modal-content w3-animate-top w3-card-4">
+      <header class="w3-container w3-teal w3-center w3-padding-32" style="background:linear-gradient(to right,#008080, #a1c7b8 ) !important;"> 
+        <span onclick="document.getElementById(hid='{{hospital.id}}').style.display='none'" 
+       class="w3-button  w3-xlarge w3-display-topright">×</span>
+        <h2 class="w3-wide" style="color:white;"><i class="fas fa-hands-helping w3-margin-right" ></i>HELPING HAND</h2>
+		
+      </header>
+      <div class="w3-container">
+	  <form  method="POST" action="{% url 'hospital-del' hospital.id %}">{% csrf_token %}
+        <p><label><i class="fa fa-remove"></i> State your reason!</label></p>
+        <input class="w3-input w3-border"name="why" required type="text" placeholder="PLEASE!!! Explain why are you trying to perform this action??...">
+        
+        <button class="w3-button w3-block w3-teal w3-padding-16 w3-section w3-right"style="background:linear-gradient(to right,#008080, #a1c7b8 ) !important;">SUBMIT <i class="fa fa-check"></i></button>
+		</form>
+        <button class=" btn btn-secondary btn-sm mt-1 mb-1 w3-button w3-red w3-section" onclick="document.getElementById(hid='{{hospital.id}}').style.display='none'">Close <i class="fa fa-remove"></i></button>
+        <p class="w3-right">Need <a href="{% url 'guide' %}" class="w3-text-blue">help?</a></p>
+      </div>
+    </div>
+  </div>
+
+
+
+<!--popup ends-->
+
+
+
+           </div> 
+               
+        <i class="fa fa-map-marker" style="width:30px"></i><a href="{{ hospital.location }}"> {{ hospital.adress }}</a><br>
+        <i class="fa fa-phone" style="width:30px"></i> Phone: {{ hospital.contact_info }}<br>
+        <i class="fa fa-hospital-o" style="width:30px"> </i> Website: <a href="{{ hospital.website }}"></a>{{ hospital.website }}<br>
+        <i class="fa fa-user-md" style="width:30px"> </i>No of Doctors: {{ hospital.no_of_doctor }}<br>
+        {% if hospital.no_of_beds_available > 5   %}
+        <i class="fa fa-bed" style="width:30px; color:teal;"  > </i> <i style="" >No of Beds Available:{{ hospital.no_of_beds_available}}</i><br>
+        {% elif hospital.no_of_beds_available == 0  %}
+          <i class="fa fa-bed" style="width:30px; color:tomato;"  > </i> <i style="color:tomato" >No of Beds Available:{{ hospital.no_of_beds_available}}</i><br>
+
+        
+        {% else %}
+         <i class="fa fa-bed" style="width:30px"> </i>No of Beds Available: {{ hospital.no_of_beds_available}}<br>
+        {%endif%}
+        
+
+
+        <i class="fa fa-medkit" style="width:30px"> </i> Corona Test Availability ? : {{ hospital.corona_test_availability }}<br>
+        
+      </div>
+      <div class="w3-col m6">
+        
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <div class="w3-half">
+              <a target="_blank" href="{{ hospital.image.url }}"><br>
+               <img  src="{{ hospital.image.url }}" style="max-width:300px;max-height:250px;" >
+              </a><br>
+            </div>
+            
+          </div>
+          
+        
+      </div>
+    </div>
+  </div>
+  {% endif %}
+    {% endfor %}
+    
+
+</div>
+
+
+<script>
+// When the user clicks anywhere outside of the modal, close it
+var modal = document.getElementById(hid);
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+</script>
+
+
+
+
+
+
+{% endblock content %}

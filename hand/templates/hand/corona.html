@@ -1,0 +1,66 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Helping Hand</title>
+<link rel="icon" type="image/ico" href="{% static 'images/hand3.png' %}" />
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <link rel="shortcut icon" href="static/corona-virus.jpg">
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162879788-1"></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet'/>
+        <link
+      rel="stylesheet"
+     href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+    type="text/css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+        <link rel="stylesheet" href="{% static 'style.css' %}">        
+        <body style=" background: #d1cdcd;">
+           <h1 id='top' class="title" style="background:linear-gradient(to right,#008080, #a1c7b8 ) !important; color:#dec5c5;">COVID-19 Update</h1>
+           
+           <h2 class="subtitle">Covid-19 latest update in Nepal</h2>
+           <div class="data-container">
+               <div class="stats-container">
+                   <h4>Total Cases</h4>
+                   <h1 id='cases'></h1>
+                   <h4>Deaths</h4>
+                   <h1 id='deaths'></h1>
+                   <h4>% of Deaths</h4>
+                   <h1 id='percentage'></h1>
+                </div>
+               <div class="location-container">
+                <h4>Country</h4>
+                <h1 id="country"></h1>
+                <h4>Recovered</h4>
+                <h1 id="population"></h1>
+                <h4>Last Updated</h4>
+                <h1 id="update"></h1>
+               </div>
+           </div>
+           <div class="map-data">
+               <div id='map'></div>
+           </div>
+           <a id='back' href="#top">BacktoTop</a>
+           <h1 class="footer">
+               Pramodyadav&copy;copyright2020.
+           </h1>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js" integrity="sha256-lPE3wjN2a7ABWHbGz7+MKBJaykyzqCbU96BJWjio86U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js" integrity="sha256-fIkQKQryItPqpaWZbtwG25Jp2p5ujqo/NwJrfqAB+Qk=" crossorigin="anonymous"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYW51cm9kaCIsImEiOiJja2FxbHRrNjEwYWFiMnpwcmR0YmF5a3EzIn0.zVMHQIqXKa0yCCJzjB64cA';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v10',
+    zoom:2,
+    center: [0,20]
+  });
+</script>
+       <script src="{% static 'script.js' %}"></script>
+        </body>
+    </head>
+</html>

@@ -1,0 +1,151 @@
+{% load static %}
+<html lang="en-us" >
+<head>
+<title>Site administration | Helping Hand admin</title>
+
+<link rel="icon" type="image/ico" href="{% static 'images/hand3.png' %}" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css">
+
+
+
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+    
+
+<meta name="robots" content="NONE,NOARCHIVE">
+
+<!---->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+ 
+
+
+
+
+
+</head>
+
+
+<body class=" dashboard"
+  data-admin-utc-offset="0">
+
+
+<div id="container" style="position:absolute; top:0%;">
+
+    
+    <!-- Header -->
+    <div id="header" style=" height:80px;">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/admin/">Helping Hand administration</a></h1>
+
+        </div>
+        
+        
+        <div id="user-tools">
+            
+                Welcome,
+                <strong>{{request.user}}</strong>.
+            
+            
+                
+                    <a href="/">View site</a> /
+                
+                
+                    
+                    
+                
+                
+                <a href="/admin/password_change/">Change password</a> /
+                
+                <a href="/admin/logout/">Log out</a>
+            
+        </div>
+        
+        
+        
+    </div>
+    <!-- END Header -->
+ <!-- Content -->
+    
+        
+        
+        
+  
+
+
+<!-- show allow requests-->
+{% for allow in allows  %}
+
+<div class="w3-container w3-content w3-padding-64" style="max-width:850px; max-height:350px; " id="contact">  
+    
+    <div class="w3-row w3-padding-32">
+      <div class="w3-col m6 w3-large w3-margin-bottom">
+        <i style="width:30px">Requested by:</i> {{ allow.author.username }}<br>
+        <hr>
+        
+        
+        <i class="fa fa-hospital-o" style="width:30px"> </i> {{allow.name }}<br>
+        <i class="fa fa-hospital-o" style="width:30px"> </i>Currently a: {{allow.currently_a }}<br>
+        <i class="fa fa-hospital-o" style="width:30px"> </i>Number of rooms: {{ allow.no_of_rooms }}<br>
+
+        <i class="fa fa-map-marker" style="width:30px"></i> {{ allow.adress }}<br>
+        <i class="fa fa-phone" style="width:30px"></i> Phone: {{ allow.contact_info }}<br>
+        <i class="fa fa-hospital-o" style="width:30px"> </i> Website: <a href="{{ allow.info }}"></a>{{ allow.info }}<br>
+        <i class="fa fa-user-md" style="width:30px"> </i>No of Doctors: {{ allow.no_of_doctor }}<br>
+        
+        
+         <i class="fa fa-bed" style="width:30px"> </i>No of Beds Available: {{ allow.no_of_beds_available}}<br>
+    
+        <i class="fa fa-medkit" style="width:30px"> </i>Corona Test Availability ? : {{ allow.corona_test_availability }}<br>
+        
+      </div>
+
+
+      <div class="w3-col m6" style=" position:absolute;left:50%;">
+        <form method="POST" action="{% url 'allow' %}" > {% csrf_token %}
+        <input type="hidden" name="username" value="{{ allow.author.username }}">
+        <input type="hidden" name="email" value="{{ allow.author.email }}">
+        <input type="hidden" name="hospital_id" value="{{ allow.id }}">
+        <input type="hidden" name="hospital_name" value="{{ allow.name }}">
+        
+
+            <div> 
+               <button type="submit" class="btn btn-danger btn-sm mt-1 mb-1" >Allow</button>
+             </div> 
+               
+        </form>
+
+</div>
+        
+        
+
+
+
+      </div>
+      
+    </div>
+
+{% endfor %}
+
+<!-- allow requests ends-->
+
+
+
+
+</div>
+
+
+</body>
+</html>

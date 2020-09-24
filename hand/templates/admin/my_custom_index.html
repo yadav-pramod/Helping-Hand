@@ -1,0 +1,104 @@
+{% extends 'admin/index.html' %}
+{% block content %}
+
+<div id="content-main">
+
+
+    
+        <div class="app-auth module">
+        <table>
+        <caption>
+            <a href="/admin/auth/" class="section" title="Models in the Authentication and Authorization application">Authentication and Authorization</a>
+        </caption>
+        
+            <tr class="model-group">
+            
+                <th scope="row"><a href="/admin/auth/group/">Groups</a></th>
+            
+
+            
+                <td><a href="/admin/auth/group/add/" class="addlink">Add</a></td>
+            
+
+            
+                
+                <td><a href="/admin/auth/group/" class="changelink">Change</a></td>
+                
+            
+            </tr>
+        
+            <tr class="model-user">
+            
+                <th scope="row"><a href="/admin/auth/user/">Users</a></th>
+            
+
+            
+                <td><a href="/admin/auth/user/add/" class="addlink">Add</a></td>
+            
+
+            
+                
+                <td><a href="/admin/auth/user/" class="changelink">Change</a></td>
+                
+            
+            </tr>
+        
+        </table>
+        </div>
+    
+        <div class="app-hand module">
+        <table>
+        <caption>
+            <a href="/admin/hand/" class="section" title="Models in the Hand application">Hand</a>
+        </caption>
+        
+            <tr class="model-hospital">
+            
+                <th scope="row"><a href="/admin/hand/hospital/">Hospitals</a></th>
+            
+
+            
+                <td><a href="/admin/hand/hospital/add/" class="addlink">Add</a></td>
+            
+
+            
+                
+                <td><a href="/admin/hand/hospital/" class="changelink">Change</a></td>
+                
+            
+            </tr>
+        
+            <tr class="model-profile">
+            
+                <th scope="row"><a href="/admin/hand/profile/">Profiles</a></th>
+            
+
+            
+                <td><a href="/admin/hand/profile/add/" class="addlink">Add</a></td>
+            
+
+            
+                
+                <td><a href="/admin/hand/profile/" class="changelink">Change</a></td>
+
+                
+                
+            
+            </tr>
+
+            <tr class="model-delete_requests">
+            
+                <th scope="row"><a href="{% url 'delete_requests' %}">Delete Requests</a></th>
+            </tr> 
+            <tr class="model-allow">
+            
+                <th scope="row"><a href="{% url 'allow' %}">Allow Requests</a></th>
+            </tr>    
+        
+        </table>
+        </div>
+    </div>
+    <br class="clear">
+
+
+{% endblock  %}

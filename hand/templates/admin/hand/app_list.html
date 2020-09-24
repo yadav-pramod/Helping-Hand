@@ -1,0 +1,84 @@
+{% load i18n %}
+
+{% if app_list %}
+  {% for app in app_list %}
+    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path %} current-app{% endif %}">
+      <table>
+        <caption>
+          <a href="{{ app.app_url }}" class="section">{{ app.name }}</a>
+        </caption>
+        {% for model in app.models %}
+          <tr class="model-{{ model.object_name|lower }}{% if model.admin_url in request.path %} current-model{% endif %}">
+            {% if model.admin_url %}
+              <th scope="row"><a href="{{ model.admin_url }}"{% if model.admin_url in request.path %} aria-current="page"{% endif %}>{{ model.name }}</a></th>
+              
+            {% else %}
+              <th scope="row">{{ model.name }}</th>
+              
+            {% endif %}
+            
+
+            {% if model.add_url %}
+            
+              <td><a href="{{ model.add_url }}" class="addlink">Add</a></td>
+            {% else %}
+              <td></td>
+            {% endif %}
+
+            {% if model.admin_url and show_changelinks %}
+              {% if model.view_only %}
+                <td><a href="{{ model.admin_url }}" class="viewlink">View</a></td>
+              {% else %}
+                <td><a href="{{ model.admin_url }}" class="changelink">Change</a></td>
+              {% endif %}
+            {% elif show_changelinks %}
+              <td></td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+        
+      </table>
+    </div>
+  {% endfor %}
+{% else %}
+  <p> You don’t have permission to view or edit anything.</p>
+{% endif %}
+
+<div class="label" >
+<label >Requests</label><br>
+</div>
+<div class="divstyle" >
+<tr><a  style="border-bottom: 1px solid #eee;" href="{% url 'delete_requests' %}">Delete Requests</a><br></tr>
+<hr><br>
+<tr><a   href="{% url 'allow' %}">Allow requests</a></tr>
+</div>   
+<style>
+.divstyle{
+    width:97%;
+    font-size: 14px;
+    
+    border-bottom: 1px solid #eee;
+    
+    vertical-align: top;
+    padding: 8px;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+    
+    
+    background:white;
+
+}
+.label{
+    width:97%;
+    font-size:12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    text-align: left;
+    background: linear-gradient(to right, #008080, #a1c7b8) !important;
+    color: #fff;
+}
+
+</style>           

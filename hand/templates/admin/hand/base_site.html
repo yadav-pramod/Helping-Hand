@@ -1,0 +1,31 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | Helping hand{% endblock %}
+
+{% block extrastyle %}
+<style>
+body{
+     background: #d1cdcd;
+}
+#header{
+     background: linear-gradient(to right, #9e0d3d, black);
+}
+
+</style>
+
+
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Helping hand</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block content %}
+
+<h1>testing 1010101010110</h1>
+<button >testung</button>
+
+
+
+{% endblock content %}

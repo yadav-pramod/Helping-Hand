@@ -1,0 +1,234 @@
+{% extends "hand/base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+        <!-- The Contact Section -->
+<div class="w3-left" style=" position:absolute;left:10%;top:5%;">
+  
+      
+  <div class="w3-container w3-content w3-padding-64 " style="max-width:800px;max-height:75px;" id="contact">
+    <h2 class="w3-wide w3-center">Hospitals</h2>
+    <hr>
+  </div>
+
+     {% for hospital in hospitals %} 
+    {% if hospital.allowed == 1  %}
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px; max-height:350px;" id="contact">  
+    <div class="w3-row w3-padding-32">
+      <div class="w3-col m6 w3-large w3-margin-bottom">
+        
+        <i style="width:30px;"></i>{{ hospital.name }}<br>
+        <hr>
+        
+           
+               
+        <i class="fa fa-map-marker" style="width:30px"></i><a target="popup" 
+  onclick="window.open('{{ hospital.location }}','popup','width=800,height=600'); return false;" href="{{ hospital.location }}"> {{ hospital.adress }}</a><br>
+        <i class="fa fa-phone" style="width:30px"></i> Phone: {{ hospital.contact_info }}<br>
+        <i class="fa fa-hospital-o" style="width:30px"> </i> Website: <a href="{{ hospital.website }}"></a>{{ hospital.website }}<br>
+        <i class="fa fa-user-md" style="width:30px"> </i>No of Doctors: {{ hospital.no_of_doctor }}<br>
+        {% if hospital.no_of_beds_available > 5   %}
+        <i class="fa fa-bed" style="width:30px; color:teal;"  > </i> <i style="" >No of Beds Available:{{ hospital.no_of_beds_available}}</i><br>
+        {% elif hospital.no_of_beds_available == 0  %}
+          <i class="fa fa-bed" style="width:30px; color:tomato;"  > </i> <i style="color:tomato" >No of Beds Available:{{ hospital.no_of_beds_available}}</i><br>
+
+        
+        {% else %}
+         <i class="fa fa-bed" style="width:30px"> </i>No of Beds Available: {{ hospital.no_of_beds_available}}<br>
+        {%endif%}
+        
+
+
+        <i class="fa fa-medkit" style="width:30px"> </i> Corona Test Availability ? : {{ hospital.corona_test_availability }}<br>
+        
+      </div>
+      <div class="w3-col m6">
+        
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <div class="w3-half">
+              <a target="_blank" href="{{ hospital.image.url }}"><br>
+               <img  src="{{ hospital.image.url }}" style="max-width:300px;max-height:230px;" >
+              </a><br>
+            </div>
+            
+          </div>
+          
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  {% endif %}
+{% endfor %}
+
+
+  </div>
+  
+
+<div class="filter">
+<form method="POST" action="{% url 'home_1' %}" style="position:absolute;top:13%;left:1%;">{% csrf_token %}
+<label style="position:absolute;top:13%;left:1%;" class="filter_label" >Select Your Region</label><br>
+
+<select  name="region" placeholder="All" style="width:57%;height:35px;" class="btn btn-secondary w3-button w3-teal w3-section">
+    <option value="All">All</option>
+    <option value="Janakpur">Janakpur</option>
+    <option value="Kathmandu">Kathmandu</option>
+    <option value="Pokhara">Pokhara</option>
+    <option value="Dhulikhel">Dhulikhel</option>
+</select>    
+<button type="submit"name="filter" class="btn btn-secondary w3-button w3-teal w3-section" placeholder="filter">Filter</button>
+ 
+</form>
+</div>
+<style>
+
+@media (max-width: 767px) {
+    .filter {
+        width:50%;
+        position:absolute;
+        top:23%;
+        left:2%;
+        font-size:0.9rem;
+    }
+    
+    }
+    
+}
+</style>   
+
+
+
+
+<!-- corona  -->
+
+                    
+        
+        <link
+      rel="stylesheet"
+     href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+    type="text/css"/>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+        
+
+              
+        <script src="{% static 'script.js' %}"></script>
+               
+           
+           
+           
+           <div class="data-container" >
+           <a href="{% url 'corona' %}" ><h2 class="subtitle" style="color: #082d2e;">CASE-O-METER</h2></a>
+               <div class="stats-container">
+                   <h4 >Total Cases</h4>
+                   <h3 id='cases' ></h3>
+                   <h4>Deaths</h4>
+                   <h3 id='deaths'></h3>
+                   <h4>% of Deaths</h4>
+                   <h3 id='percentage'></h3>
+                </div>
+               <div class="location-container">
+                <h4>Country</h4>
+                <h3 id="country"></h3>
+                <h4>Recovered</h4>
+                <h3 id="population"></h3>
+                <h4>Last Updated</h4>
+                <h3 id="update"></h3>
+               </div>
+           </div>
+           </div>
+<!-- style for case-o-meter -->   
+<style>
+h1,
+h2 {
+    font-weight: 300;
+    text-align: center;
+    padding-bottom: 20px;
+    color: #082d2e;
+    font-size: 250%;
+}
+
+h3 {
+    color: #082d2e;
+}
+.subtitle {
+    border: 2px solid #4d4037;
+    padding: 20px;
+    font-size: 150%;
+}
+
+.stats-container {
+    text-align: center;
+    float: right;
+    display: inline-block;
+}
+
+.location-container {
+    text-align: center;
+    display: inline-block;
+}
+
+.data-container {
+    background:linear-gradient(to right,#008080, #a1c7b8 ) !important;
+    padding: 5px;
+    width: 30%;
+    height: 50%;
+    margin-right: 25%;
+    margin-left: 25%;
+    position: fixed;
+    left: 40%;
+    top: 27%;
+}
+
+h4 {
+    font-size: 100%;
+    color: whitesmoke;
+    text-align: center;
+    padding: 10px;
+    padding-left: 5px;
+}
+@media (max-width: 767px) {
+    .data-container {
+        display:none;
+    }
+    
+}
+
+</style>
+
+
+<!-- style for case-o-meter ends-->   
+  
+
+
+
+
+
+
+    
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+
+    {% endif %}
+{% endblock content %}
